@@ -1,0 +1,15 @@
+---
+title: "AN588_Zombies_benap_homeworkcode"
+author: "Ben Peters"
+date: "2025-03-02"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+```
+
