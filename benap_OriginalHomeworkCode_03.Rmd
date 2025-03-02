@@ -10,6 +10,100 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+survivor_data <- read.csv("zombies.csv", header = T)
+head(survivor_data)
+```
+
+### 1. 
+
+**Calculate the population mean and standard deviation for each quantitative random variable (height, weight, age, number of zombies killed, and years of education). NOTE: You will not want to use the built in var() and sd() commands as these are for samples.**
+
+```{r}
+popsd <- function(x){ #the default sd function returns the sample standard deviation, so let's make a function that calculates the population parameter by multiplying by the square root of n/n-1 of the population
+  sqrt(length(x)/(length(x) - 1))*sd(x)
+}
+```
+
+```{r}
+# Height
+mean(survivor_data$height)
+popsd(survivor_data$height)
+```
+```{r}
+# Weight
+mean(survivor_data$weight)
+popsd(survivor_data$weight)
+```
+```{r}
+# Age
+mean(survivor_data$age)
+popsd(survivor_data$age)
+```
+```{r}
+# Kills
+mean(survivor_data$zombies_killed) # kinda pathetic numbers tbh
+popsd(survivor_data$zombies_killed) 
+```
+```{r}
+# Years of Education
+mean(survivor_data$years_of_education)
+popsd(survivor_data$years_of_education)
+```
+
+### 2.
+
+**Use {ggplot} to make boxplots of each of these variables by gender. **
+
+```{r}
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+```
+
+```{r}
+boxplots <- ggplot(survivor_data, aes(x = gender, fill = gender)) + 
+  scale_fill_manual(values = c("yellow","white","purple","black")) #this just manually defines the colors the fill parameter is going to use
+
+boxplots +
+  geom_boxplot(aes(y = age))
+boxplots +
+  geom_boxplot(aes(y = height))
+boxplots +
+  geom_boxplot(aes(y = weight))
+boxplots +
+  geom_boxplot(aes(y = years_of_education))
+boxplots +
+  geom_boxplot(aes(y = zombies_killed)) #give the enbies a gun
+
+```
+
+### 3.
+
+**Use {ggplot} to make scatterplots of height and weight in relation to age. Do these variables seem to be related? In what way? **
+
+
+```{r}
+ggplot(data = survivor_data, aes(x = height, y = age)) +
+  geom_point(color = "purple") +
+  geom_smooth()
+ggplot(data = survivor_data, aes(x = weight, y = age)) +
+  geom_point(color = "darkgreen") +
+  geom_smooth()
+```
+
+```{r}
+# I was curious so I decided to calculate pearson R for both comparisons
+cor(survivor_data$height, survivor_data$age, method = "pearson")
+cor(survivor_data$weight, survivor_data$age, method = "pearson")
+```
+
+*Both of these variables appear to be positively correlated (and therefore possibly related) to age, as indicated by the seemingly linear spread of points along the diagonal and quantitatively supported by the high correlation coefficient values calculated above. Weight shows a greater spread, though, as represented by it's lower overall correlation coefficient of 0.32.*
+
+### 4.
+
+**Using histograms and Q-Q plots, check whether the quantitative variables seem to be drawn from a normal distribution. Which seem to be and which do not (hint: not all are drawn from the normal distribution)? For those that are not normal, can you determine from which common distribution they are drawn?** 
+
+```{r}
 
 ```
 
